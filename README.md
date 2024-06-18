@@ -1,5 +1,6 @@
 # Malloc
 A dynamic memory allocator for C programs. 
+
 • mm init: Before calling mm malloc, mm realloc, or mm free, the application program (i.e., the trace-driven driver program that you will use to evaluate your implementation) calls mm init to perform any necessary initialization, such as allocating the initial heap area. The return value should be -1 if there was a problem in performing the initialization, and 0 otherwise.
 
 The driver will call mm init before running each trace (and after resetting the brk pointer). Therefore, your mm init function should be able to reinitialize all state in your allocator each time it is called. In other words, you should not assume that it will only be called once.
