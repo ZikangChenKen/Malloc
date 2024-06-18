@@ -1,0 +1,43 @@
+COMP 321 Project 5: Malloc
+Yuqi Chen yc138 Zikang Chen zc45
+
+---(Do not write lines of text that exceed the width of this line.)------------
+
+DESIGN DESCRIPTION
+We used segregated free list to keep track of free blocks. The placement
+policy we use is first-fit in each segregated free list. The structure we 
+use for the segregated free list is a doubly linked list so that we could 
+search, insert and delete in a linear time. Because we implemented segregated
+free list, so the block size is highly likely fits the space that we need. 
+Therefore, we never split the free block. For coalesce, we call coalesce 
+which is to coalesce free blocks each time when we free a block, which is 
+when calling the mm_free function. With regard to insertion policy,
+we use LIFO principle for our segregated free list because in this case,
+inserting and deleting will be simpler and more efficient. 
+Overall, the Perf index = 33/40 (util) + 60/60 (thru) = 93/100 on my end.
+
+
+checkheap() DESCRIPTION
+
+Basically, we check whether every block in the free list is marked as free
+and whether every free block is actually in the free list at the same time.
+We go over the heap and each segregated free list to count the number of 
+free blocks. If they agree, then every free block should be in the free
+list. Meanwhile, we could use GET_ALLOC(HDRP(bp)) to check if the block 
+is labelled as free. Since our implementation is that we would coalesce
+every time when we free a block. Therefore, there is no need to check 
+whether there are any contiguous free blocks that somehow escaped 
+coalescing. To check the pointers in the free list point to valid free 
+blocks, we write a helper checkfreeblock to examine if the previous free 
+block in the free list has its next block pointing to the current block.
+Also, check if the next free block has its previous block pointing to the
+current block. In order to check whether there are any allocated blocks
+overlap, we would test the situation where the current block is allocated
+and the previous block is also allocated. Then see if the beginning of the 
+current block has address lower than the previous block. If so, print an 
+error message that says there is a overlap. For the last part which is 
+to check whether the pointers in a heap block point to valid heap 
+addresses, we simply check whether each block's header and footer exceeds
+the heap.
+
+
